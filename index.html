@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atendente AI - WhatsApp para Restaurantes, Lanchonetes e Pizzarias</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        /* Header Navigation */
+        header {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        nav a:hover {
+            opacity: 0.8;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(20px); }
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #fff;
+            color: #25D366;
+            padding: 16px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .cta-button-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+            margin-left: 1rem;
+        }
+
+        .cta-button-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 80px 20px;
+        }
+
+        section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            color: #333;
+        }
+
+        section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #25D366;
+        }
+
+        /* Problema e Solução */
+        .problem-solution {
+            background: white;
+        }
+
+        .problem-solution-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .problem-solution-grid.reverse {
+            direction: rtl;
+        }
+
+        .problem-solution-grid.reverse > * {
+            direction: ltr;
+        }
+
+        .problem-solution-content h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .problem-solution-content p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .problem-icon, .solution-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Features Section */
+        .features {
+            background: #f8f9fa;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Benefits Section */
+        .benefits {
+            background: white;
+        }
+
+        .benefits-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .benefit-item {
+            display: flex;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #25D366;
+        }
+
+        .benefit-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+            color: #25D366;
+        }
+
+        .benefit-content h4 {
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .benefit-content p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* Comparison Table */
+        .comparison {
+            background: #f8f9fa;
+            margin-top: 3rem;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            padding: 1.5rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .check {
+            color: #25D366;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        .cross {
+            color: #dc3545;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            background: white;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 0 auto 1.5rem;
+        }
+
+        .step h3 {
+            margin-bottom: 1rem;
+        }
+
+        .step p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            background: #f8f9fa;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .testimonial-stars {
+            color: #ffc107;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .testimonial-text {
+            color: #666;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        .testimonial-author {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.3rem;
+        }
+
+        .testimonial-role {
+            color: #25D366;
+            font-size: 0.9rem;
+        }
+
+        /* FAQ Section */
+        .faq {
+            background: white;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1.5rem;
+        }
+
+        .faq-question {
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+
+        .faq-question:hover {
+            color: #25D366;
+        }
+
+        .faq-toggle {
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .faq-answer {
+            display: none;
+            margin-top: 1rem;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(180deg);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .cta-section h2 {
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 3rem 20px 1rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            color: #25D366;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #25D366;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #333;
+            color: #999;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .cta-button, .cta-button-secondary {
+                display: block;
+                margin: 0.5rem auto;
+                width: 90%;
+                max-width: 300px;
+            }
+
+            nav {
+                display: none;
+            }
+
+            .problem-solution-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .problem-solution-grid.reverse {
+                direction: ltr;
+            }
+
+            section h2 {
+                font-size: 1.8rem;
+            }
+
+            .hero::before {
+                width: 300px;
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <span class="logo-icon">💬</span>
+                <span>Atendente AI</span>
+            </div>
+            <nav>
+                <a href="#features">Recursos</a>
+                <a href="#benefits">Benefícios</a>
+                <a href="#how-it-works">Como Funciona</a>
+                <a href="#faq">FAQ</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Revolucione seu Atendimento com IA</h1>
+            <p>Uma atendente AI especialista em vendas pelo WhatsApp que imprime cupons de pedidos, liberta seu tempo e custa muito menos que um atendente humano.</p>
+            <button class="cta-button" onclick="scrollToContact()">Quero Conhecer a Atendente AI</button>
+            <button class="cta-button cta-button-secondary" onclick="scrollToContact()">Agende uma Demonstração</button>
+        </div>
+    </section>
+
+    <!-- Problema e Solução -->
+    <section class="problem-solution">
+        <div class="container">
+            <h2>O Desafio do Seu Negócio</h2>
+            
+            <div class="problem-solution-grid">
+                <div>
+                    <div class="problem-icon">😰</div>
+                    <div class="problem-solution-content">
+                        <h3>O Problema</h3>
+                        <p><strong>Atendimento manual é caro e ineficiente.</strong> Você precisa contratar e treinar atendentes, lidar com ausências, pagar encargos trabalhistas e ainda assim perder vendas por falta de disponibilidade.</p>
+                        <p>Seus clientes esperam respostas rápidas no WhatsApp, mas sua equipe não consegue acompanhar a demanda.</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="solution-icon">✨</div>
+                    <div class="problem-solution-content">
+                        <h3>A Solução</h3>
+                        <p><strong>A Atendente AI está disponível 24/7</strong> para atender seus clientes no WhatsApp, especializada em vendas e integrada com suas impressoras para imprimir cupons de pedidos automaticamente.</p>
+                        <p>Você se liberta do atendimento e pode focar no que realmente importa: crescer seu negócio.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2>Recursos Principais</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>WhatsApp 24/7</h3>
+                    <p>Atendimento ininterrupto pelo WhatsApp. Seus clientes podem fazer pedidos a qualquer hora, em qualquer dia.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>IA Especialista em Vendas</h3>
+                    <p>Treinada para sugerir produtos, aumentar o ticket médio e converter mais clientes em vendas reais.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🖨️</div>
+                    <h3>Impressão de Cupons</h3>
+                    <p>Integração automática com sua impressora. Cada pedido é impresso instantaneamente na sua cozinha.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Rápido e Eficiente</h3>
+                    <p>Respostas instantâneas, sem erros de digitação, sem demoras. Velocidade que aumenta a satisfação do cliente.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Economia Real</h3>
+                    <p>Custa uma fração do que você gasta com um atendente humano. Sem encargos trabalhistas, sem ausências.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔧</div>
+                    <h3>Fácil de Usar</h3>
+                    <p>Integração simples com seu fluxo de trabalho. Nenhuma complexidade técnica, funciona de imediato.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits" id="benefits">
+        <div class="container">
+            <h2>Por Que Escolher a Atendente AI?</h2>
+            <div class="benefits-list">
+                <div class="benefit-item">
+                    <div class="benefit-icon">💵</div>
+                    <div class="benefit-content">
+                        <h4>Redução de Custos</h4>
+                        <p>Economia de até 70% em comparação com atendentes humanos. Sem salários, encargos ou benefícios.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">📈</div>
+                    <div class="benefit-content">
+                        <h4>Aumento de Vendas</h4>
+                        <p>Atendimento sempre disponível significa mais pedidos capturados. Clientes satisfeitos retornam.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">⏰</div>
+                    <div class="benefit-content">
+                        <h4>Liberdade de Tempo</h4>
+                        <p>Você se liberta do atendimento. Dedique seu tempo a estratégia, qualidade e crescimento.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">😊</div>
+                    <div class="benefit-content">
+                        <h4>Satisfação do Cliente</h4>
+                        <p>Respostas rápidas e precisas. Seus clientes recebem o atendimento que esperam, quando querem.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">🔄</div>
+                    <div class="benefit-content">
+                        <h4>Integração Automática</h4>
+                        <p>Conecta-se com sua impressora, seu cardápio e seus sistemas. Tudo funciona junto.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">📊</div>
+                    <div class="benefit-content">
+                        <h4>Relatórios e Análises</h4>
+                        <p>Dados em tempo real sobre vendas, preferências de clientes e tendências do seu negócio.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comparison Table -->
+            <div class="comparison">
+                <h3 style="text-align: center; margin-bottom: 2rem;">Comparação: Atendente AI vs. Atendente Humano</h3>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Aspecto</th>
+                            <th>Atendente AI</th>
+                            <th>Atendente Humano</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Disponibilidade</strong></td>
+                            <td><span class="check">✓</span> 24/7</td>
+                            <td><span class="cross">✗</span> Horário comercial</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Custo Mensal</strong></td>
+                            <td><span class="check">✓</span> A partir de R$ 299</td>
+                            <td><span class="cross">✗</span> R$ 2.000+</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Erros</strong></td>
+                            <td><span class="check">✓</span> Praticamente zero</td>
+                            <td><span class="cross">✗</span> Humanos</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Velocidade de Resposta</strong></td>
+                            <td><span class="check">✓</span> Instantânea</td>
+                            <td><span class="cross">✗</span> Variável</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Treinamento</strong></td>
+                            <td><span class="check">✓</span> Pré-configurada</td>
+                            <td><span class="cross">✗</span> Semanas necessárias</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Encargos Trabalhistas</strong></td>
+                            <td><span class="check">✓</span> Nenhum</td>
+                            <td><span class="cross">✗</span> ~80% do salário</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Integração com Impressora</strong></td>
+                            <td><span class="check">✓</span> Automática</td>
+                            <td><span class="cross">✗</span> Manual</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Escalabilidade</strong></td>
+                            <td><span class="check">✓</span> Ilimitada</td>
+                            <td><span class="cross">✗</span> Limitada</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <h2>Como Funciona</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Cliente Entra em Contato</h3>
+                    <p>Seu cliente abre o WhatsApp e começa uma conversa com a Atendente AI. Simples, natural e familiar.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>IA Atende e Vende</h3>
+                    <p>A Atendente AI apresenta o cardápio, responde dúvidas, sugere produtos e converte o cliente em venda.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Cupom Impresso</h3>
+                    <p>O pedido é automaticamente enviado para sua impressora. Sua cozinha já está preparando o pedido.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Você Lucra</h3>
+                    <p>Mais vendas, menos custos, mais tempo livre. Seu negócio cresce enquanto você se concentra no essencial.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <h2>O Que Dizem Nossos Clientes</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial">
+                    <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                    <div class="testimonial-text">"Implementei a Atendente AI em minha pizzaria e as vendas aumentaram 40% em apenas dois meses. Meus clientes adoram a rapidez do atendimento pelo WhatsApp!"</div>
+                    <div class="testimonial-author">Carlos Silva</div>
+                    <div class="testimonial-role">Proprietário - Pizzaria Bella Italia</div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                    <div class="testimonial-text">"Economizei mais de R$ 1.500 por mês deixando de contratar um atendente. A IA faz um trabalho melhor e não falta nenhum dia. Excelente investimento!"</div>
+                    <div class="testimonial-author">Marina Costa</div>
+                    <div class="testimonial-role">Gerente - Lanchonete Gourmet</div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                    <div class="testimonial-text">"A integração com a impressora foi tão fácil que consegui configurar em 10 minutos. Agora meu restaurante funciona muito melhor. Recomendo para todos!"</div>
+                    <div class="testimonial-author">Roberto Mendes</div>
+                    <div class="testimonial-role">Dono - Restaurante Sabores do Brasil</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <h2>Perguntas Frequentes</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Como a Atendente AI se integra com minha impressora?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        A integração é simples e automática. Conectamos a Atendente AI com sua impressora através de uma API segura. Quando um cliente faz um pedido, o cupom é impresso instantaneamente na sua cozinha. Nenhuma configuração técnica complexa é necessária.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Qual é o custo mensal da Atendente AI?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        Oferecemos planos a partir de R$ 299 por mês, dependendo do volume de atendimentos e recursos desejados. Isso é significativamente menor que o custo de um atendente humano (que custa em média R$ 2.000+ com encargos). Você terá retorno do investimento em poucas semanas.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>A IA consegue lidar com pedidos complexos?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        Sim! A Atendente AI é treinada para lidar com pedidos complexos, personalizações, dúvidas sobre ingredientes, promoções e muito mais. Ela entende o contexto da conversa e oferece soluções inteligentes, assim como um atendente experiente faria.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>E se um cliente precisar falar com uma pessoa?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        A Atendente AI é inteligente o suficiente para reconhecer quando uma situação requer intervenção humana. Nesses casos, ela pode transferir a conversa para um membro da sua equipe ou deixar uma mensagem para você responder depois.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Quanto tempo leva para implementar?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        A implementação é rápida! Você pode estar operacional em menos de 24 horas. Fazemos a integração, configuramos o cardápio e a IA já estará pronta para atender seus clientes. Suporte técnico disponível em todas as etapas.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Meus dados de clientes estão seguros?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        Absolutamente. Usamos criptografia de nível empresarial e conformidade com LGPD. Seus dados e os de seus clientes são protegidos com os mais altos padrões de segurança. Você tem controle total sobre as informações.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Posso customizar a IA para meu negócio?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        Sim! A Atendente AI é totalmente customizável. Você define o tom de voz, as respostas, as promoções, o cardápio e até a personalidade da IA. Ela fica única para seu negócio.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="contact">
+        <div class="container">
+            <h2>Pronto para Revolucionar seu Atendimento?</h2>
+            <p>Comece agora e veja o impacto na sua lanchonete, restaurante ou pizzaria em poucos dias.</p>
+            <button class="cta-button" onclick="contactViaWhatsApp()">Fale Conosco pelo WhatsApp</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Sobre Nós</h4>
+                <p>Somos especialistas em IA para o setor de alimentação. Nossa missão é democratizar a tecnologia de atendimento inteligente para pequenos e médios negócios.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Recursos</h4>
+                <ul>
+                    <li><a href="#features">Recursos</a></li>
+                    <li><a href="#benefits">Benefícios</a></li>
+                    <li><a href="#how-it-works">Como Funciona</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contato</h4>
+                <ul>
+                    <li><a href="mailto:contato@atendenteai.com.br">contato@atendenteai.com.br</a></li>
+                    <li><a href="tel:+5511999999999">(11) 99999-9999</a></li>
+                    <li><a href="https://wa.me/5511999999999" target="_blank">WhatsApp</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Política de Privacidade</a></li>
+                    <li><a href="#">Termos de Serviço</a></li>
+                    <li><a href="#">LGPD</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Atendente AI. Todos os direitos reservados. | Transformando o atendimento de restaurantes com IA</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleFAQ(element) {
+            const faqItem = element.parentElement;
+            faqItem.classList.toggle('active');
+        }
+
+        function scrollToContact() {
+            document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function contactViaWhatsApp() {
+            // Substitua com seu número de WhatsApp real
+            const phoneNumber = '5511999999999'; // Formato: 55 + DDD + número
+            const message = 'Olá! Gostaria de conhecer mais sobre a Atendente AI para meu negócio.';
+            const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappURL, '_blank');
+        }
+    </script>
+</body>
+</html>

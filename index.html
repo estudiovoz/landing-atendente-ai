@@ -62,7 +62,93 @@
             opacity: 0.8;
         }
 
-        /* Hero Section */
+        /* Video Hero Section (Nova Seção Inicial com Player de Vídeo) */
+        .video-hero {
+            position: relative;
+            width: 100%;
+            height: 70vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+        }
+
+        .video-hero video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ajusta o vídeo para cobrir toda a área sem distorção */
+        }
+
+        .video-hero .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4); /* Overlay escuro para legibilidade do texto */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            z-index: 2;
+            padding: 0 20px;
+        }
+
+        .video-hero .overlay h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .video-hero .overlay p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            line-height: 1.6;
+            max-width: 600px;
+        }
+
+        .video-hero .overlay .buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .video-hero .overlay .video-link {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.9);
+            color: #25D366;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border: none;
+        }
+
+        .video-hero .overlay .video-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            background: white;
+        }
+
+        .video-hero .controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+        }
+
+        /* Hero Section (Agora após o vídeo) */
         .hero {
             background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
             color: white;
@@ -529,6 +615,14 @@
 
         /* Responsive */
         @media (max-width: 768px) {
+            .video-hero .overlay h1 {
+                font-size: 2rem;
+            }
+
+            .video-hero .overlay p {
+                font-size: 1rem;
+            }
+
             .hero h1 {
                 font-size: 2rem;
             }
@@ -542,6 +636,10 @@
                 margin: 0.5rem auto;
                 width: 90%;
                 max-width: 300px;
+            }
+
+            .video-hero .overlay .buttons {
+                flex-direction: column;
             }
 
             nav {
@@ -585,7 +683,27 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
+    <!-- Nova Seção: Video Hero (Player de Vídeo bem no Início) -->
+    <section class="video-hero">
+        <video autoplay muted loop playsinline>
+            <source src="https://manoelgoncalves.com.br/wp-content/uploads/2025/10/Video-do-WhatsApp-de-2025-10-18-as-21.32.29_d2236772.mp4" type="video/mp4">
+            Seu navegador não suporta o elemento de vídeo.
+        </video>
+        <div class="overlay">
+            <h1>Revolucione seu Atendimento com IA</h1>
+            <p>Uma atendente AI especialista em vendas pelo WhatsApp que imprime cupons de pedidos, liberta seu tempo e custa muito menos que um atendente humano.</p>
+            <div class="buttons">
+                <button class="cta-button" onclick="scrollToContact()">Quero Conhecer a Atendente AI</button>
+                <button class="cta-button cta-button-secondary" onclick="scrollToContact()">Agende uma Demonstração</button>
+                <a href="https://manoelgoncalves.com.br/wp-content/uploads/2025/10/Video-do-WhatsApp-de-2025-10-18-as-21.32.29_d2236772.mp4" class="video-link" target="_blank">Veja em funcionamento a Atendente AI</a>
+            </div>
+        </div>
+        <div class="controls">
+            <!-- Controles opcionais do vídeo, se quiser expor -->
+        </div>
+    </section>
+
+    <!-- Hero Section (Agora após o vídeo, mantida para consistência) -->
     <section class="hero">
         <div class="hero-content">
             <h1>Revolucione seu Atendimento com IA</h1>
